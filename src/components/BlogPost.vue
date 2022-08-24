@@ -21,7 +21,3 @@ const emit = defineEmits(['cambiarFavorito'])
         </div>
     </div>
 </template>
-
-<style>
-
-</style>
