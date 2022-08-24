@@ -1,47 +1,33 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import BlogPost from "./components/BlogPost.vue";
+import { ref } from 'vue';
+
+const posts = ref([]);
+
+const favorito = ref("");
+const cambiarFavorito = (title) => {
+  favorito.value = title;
+}
+
+fetch('https://jsonplaceholder.typicode.com/posts')
+  .then((res) => res.json())
+  .then((data) => {
+    posts.value = data;
+    console.log(data)
+  })
 </script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="container">
+    <h1>APP - API</h1>
+    <h2>Mis post Favoritos: {{favorito}}</h2>
+    <BlogPost
+      v-for="(po, index) in posts"
+      :key="index"
+      :title="po.title"
+      :id="po.id"
+      :body="po.body"
+      :cambiarFavorito = "cambiarFavorito"
+    >
+    </BlogPost>
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
